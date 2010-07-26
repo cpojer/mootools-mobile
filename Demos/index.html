@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MooTools Mobile</title>
+	<link rel="stylesheet" media="all" type="text/css" href="style.css" />
+	
+	<style type="text/css">
+		body {
+			-webkit-tap-highlight-color: transparent;
+		}
+		
+	 	span.yes {
+			color: #363;
+		}
+		
+		span.yes:after {
+			content: ' - yes';
+		}
+
+		span.no {
+			color: #C30;
+		}
+		
+		span.no:after {
+			content: ' - no';
+		}
+		
+		div#support span {
+			display: block;
+		}
+	</style>
+	<script type="text/javascript" src="mootools-core.js"></script>
+	
+	<script type="text/javascript" src="../Source/Browser/Mobile.js"></script>
+	<script type="text/javascript" src="../Source/Browser/Features.Touch.js"></script>
+	
+	<script type="text/javascript" src="../Source/Touch/Touch.js"></script>
+	
+	<script type="text/javascript">
+		window.addEvent('domready', function(){
+			var browser = document.id('support');
+			
+			var add = function(text, hasSupport){
+				return new Element('span.' + (hasSupport ? 'yes' : 'no'), {text: text}).inject(browser);
+			};
+			
+			// Check if some of the additional properties on the Browser object are set
+			add('Touch Support', Browser.Features.Touch);
+			add('Browser has high resolution', Browser.hasHighResolution);
+			add('Browser is mobile', Browser.isMobile);
+			add('Browser Device Name: ' + Browser.Device.name, Browser.Device.name != 'other');
+			
+			// On iOS this automatically gets replaced with the touchend event. No work required on your side!
+			document.id('myElement').addEvent('click', function(event){
+				event.preventDefault();
+				
+				add('Used click event: ' + event.type, event.type == 'touchend');
+			});
+		});
+	</script>
+</head>
+<body>
+<div id="support">
+	
+</div>
+<div>
+<a id="myElement" href="#">Click Me so I can tell you which event handler was used</a>
+</div>
+</body>
+</html>
