@@ -14,6 +14,6 @@ author: "cpojer"
 authors: "[Christoph Pojer](http://cpojer.net)"
 
 sources:
-	- "Source/Browser/Mobile.js"
-    - "Source/Browser/Features.Touch.js"
-    - "Source/Touch/Touch.js"
+  - "Source/Browser/Mobile.js"
+  - "Source/Browser/Features.Touch.js"
+  - "Source/Touch/Touch.js"
