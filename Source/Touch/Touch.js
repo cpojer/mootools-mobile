@@ -56,4 +56,72 @@ Element.Events.click = {
 	
 };
 
+Element.Events.swipe = {
+	onAdd: function(fn){
+		Element.Events.swipe.startX, 
+		Element.Events.swipe.startY, 
+		Element.Events.swipe.active = false;
+		
+		touchStart = function(event){
+			Element.Events.swipe.active = true;
+			Element.Events.swipe.startX = event.event.touches[0].pageX;
+			Element.Events.swipe.startY = event.event.touches[0].pageY;
+		};
+		
+		touchMove = function(event){
+			event.preventDefault();
+			endX = event.event.touches[0].pageX;
+			endY = event.event.touches[0].pageY;
+			
+			swipeDiff = endX - Element.Events.swipe.startX;
+			
+			// 50 - minmal distance to swipe
+			isLeftSwipe = swipeDiff < 50 * -1;
+			isRightSwipe = swipeDiff > 50;
+			
+			// ! TODO: check vertical movement to cancel swipe
+			
+			if (Element.Events.swipe.active && (isRightSwipe || isLeftSwipe)){
+				Element.Events.swipe.active = false;
+				fn.call(this, {
+					'direction': isLeftSwipe ? 'left' : 'right'
+				});
+			}
+		};
+		
+		this.addEvent('touchstart', touchStart);    
+		this.addEvent('touchmove', touchMove);
+	}
+};
+
+// Add Custom Pinch Event
+Element.Events.pinch = {
+	onAdd: function(fn){
+		Element.Events.pinch.active = true;
+		
+		gestureStart = function(event){
+			Element.Events.pinch.active = true;
+		};
+		gestureChange = function(event){
+			event.preventDefault();
+			
+			isPinch = event.scale > 1.5 || event.scale < 0.5;
+			
+			if(Element.Events.pinch.active && isPinch)
+			{
+				Element.Events.pinch.active = false;
+				
+				fn.call(this, {
+					"type": (event.scale > 1) ? "in" : "out",
+					"factor": event.scale
+				});
+			}
+		};
+		
+		this.addEvent('gesturestart', gestureStart);
+		this.addEvent('gesturechange', gestureChange);
+	}
+}
+
+
 })();
