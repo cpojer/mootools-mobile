@@ -62,6 +62,8 @@ Element.Events.swipe = {
 		Element.Events.swipe.startY, 
 		Element.Events.swipe.active = false;
 		
+		Element.Events.swipe.minDistance = 50; // minimal distance to swipe
+		
 		touchStart = function(event){
 			Element.Events.swipe.active = true;
 			Element.Events.swipe.startX = event.event.touches[0].pageX;
@@ -75,9 +77,8 @@ Element.Events.swipe = {
 			
 			swipeDiff = endX - Element.Events.swipe.startX;
 			
-			// 50 - minmal distance to swipe
-			isLeftSwipe = swipeDiff < 50 * -1;
-			isRightSwipe = swipeDiff > 50;
+			isLeftSwipe = swipeDiff < Element.Events.swipe.minDistance * -1;
+			isRightSwipe = swipeDiff > Element.Events.swipe.minDistance;
 			
 			// ! TODO: check vertical movement to cancel swipe
 			
