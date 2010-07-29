@@ -18,13 +18,14 @@ provides: Touch
 
 if (Browser.Features.Touch) (function(){
 
-delete Element.NativeEvents.click;
-
+var name = 'click';
 var preventDefault = function(event){
 	event.preventDefault();
 };
 
-Element.Events.click = {
+delete Element.NativeEvents[name];
+
+Element.Events[name] = {
 
 	base: 'touchend',
 
@@ -47,7 +48,7 @@ Element.Events.click = {
 
 	onRemove: function(){
 		var events = this.retrieve('events');
-		if (events && events.click && !events.click.keys.length)
+		if (events && events[name] && !events[name].keys.length)
 			this.removeEvent('touchstart', preventDefault);
 	}
 	
