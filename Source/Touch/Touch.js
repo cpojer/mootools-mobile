@@ -20,7 +20,6 @@ if (Browser.Features.Touch) (function(){
 
 delete Element.NativeEvents.click;
 
-var key = 'touch:count';
 var preventDefault = function(event){
 	event.preventDefault();
 };
@@ -43,15 +42,13 @@ Element.Events.click = {
 	},
 
 	onAdd: function(){
-		this.store(key, this.retrieve(key, 0) + 1);
 		this.addEvent('touchstart', preventDefault);
 	},
 
 	onRemove: function(){
-		var count = this.retrieve(key, 0);
-		this.store(key, --count);
-
-		if (count <= 0) this.removeEvent('touchstart', preventDefault);
+		var events = this.retrieve('events');
+		if (events && events.click && !events.click.keys.length)
+			this.removeEvent('touchstart', preventDefault);
 	}
 	
 };
