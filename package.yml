@@ -17,3 +17,5 @@ sources:
   - "Source/Browser/Mobile.js"
   - "Source/Browser/Features.Touch.js"
   - "Source/Touch/Touch.js"
+  - "Source/Touch/Pinch.js"
+  - "Source/Touch/Swipe.js"
