@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MooTools Mobile</title>
+	<link rel="stylesheet" media="all" type="text/css" href="style.css" />
+
+	<style type="text/css">
+		body {
+			-webkit-tap-highlight-color: transparent;
+		}
+
+		div.box {
+			width: 250px;
+			height: 250px;
+
+			background: #a647db;
+
+			font-size: 2em;
+			line-height: 250px;
+			text-align: center;
+			color: #fff;
+		}
+	</style>
+	<script type="text/javascript" src="mootools-core.js"></script>
+	
+	<script type="text/javascript" src="../Source/Browser/Features.Touch.js"></script>
+
+	<script type="text/javascript" src="../Source/Touch/Swipe.js"></script>
+
+	<script type="text/javascript">
+		window.addEvent('domready', function(){
+			var element = document.id('myElement'),
+				timer;
+
+			element.store('swipe:cancelVertical', true);
+			element.addEvent('swipe', function(event){
+				this.set('text', 'Swipe ' + event.direction);
+
+				clearTimeout(timer);
+				timer = (function(){
+					this.set('text', 'Swipe');
+				}).delay(500, this);
+			});
+
+			// Testing remove listener
+			var listener = function(){};
+
+			document.id('testElement').addEvent('swipe', listener).removeEvent('swipe', listener);
+		});
+	</script>
+</head>
+<body>
+<div id="myElement" class="box">
+	Swipe
+</div>
+<div id="testElement"></div>
+</body>
+</html>

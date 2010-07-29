@@ -9,7 +9,7 @@ authors: Christoph Pojer (@cpojer)
 
 license: MIT-style license.
 
-requires: [Core/Element.Events, Browser.Features.Touch]
+requires: [Core/Element.Event, Browser.Features.Touch]
 
 provides: Touch
 

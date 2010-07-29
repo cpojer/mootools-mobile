@@ -24,6 +24,26 @@ If you include Touch/Touch.js (and dependencies) into your application, all clic
 
 For more information see the included Demo.
 
+Swipe Custom Event
+------------------
+
+The file Touch/Swipe.js provides a custom swipe event for your elements
+
+	myElement.addEvent('swipe', function(event){
+		event.direction // either 'left' or 'right'
+
+		event.start // {x: Number, y: Number} where the swipe started
+		event.end // {x: Number, y: Number} where the swipe ended
+	});
+
+Additionally there are some options for swipe events
+
+	myElement.store('swipe:distance', 20); // (defaults to 50) amount of pixels to be moved until swipe is being fired
+	myElement.store('swipe:cancelVertical', true); // (defaults to false) Whether to cancel swipes if the user moved vertically
+
+Browser Information
+-------------------
+
 To execute code on browsers with touch events available use Browser/Features.Touch.js
 
 	if (Browser.Features.Touch){
