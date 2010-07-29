@@ -19,3 +19,4 @@ sources:
   - "Source/Touch/Touch.js"
   - "Source/Touch/Pinch.js"
   - "Source/Touch/Swipe.js"
+  - "Source/Touch/Touchhold.js"

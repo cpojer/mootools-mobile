@@ -54,6 +54,19 @@ Additionally there is a threshold option for pinch events
 
 	myElement.store('pinch:threshold', 0.4); // (defaults to 0.5) the amount of scaling to be done to fire the pinch event
 
+Touchhold Custom Event
+----------------------
+
+The file Touch/Touchhold.js provides a custom touchhold event for your elements
+
+	myElement.addEvent('touchhold', function(event){
+		// Touchhold fired
+	});
+
+Additionally there is delay option for touchhold events
+
+	myElement.store('touchhold:delay', 1000); // (defaults to 750) the amount of time in ms to wait until the touchhold event gets fired
+
 Browser Information
 -------------------
 
@@ -86,11 +99,23 @@ For an optimal experience use the following CSS Styles
 		-webkit-tap-highlight-color: transparent;
 	}
 
+For elements with touch events use
+
+	#myElement {
+		-webkit-user-select: none;
+	}
+
 In addition to that, because the code uses "document.elementFromPoint", it is wise to set pointer-events to none for elements within click handler elements. Usually "a *" as a selector is sufficient, but it should be applied to any overlaying elements that might get in your way.
 
 	a * {
 		pointer-events: none;
 	}
+
+Also, to prevent moving the whole page in iOS you can add this script
+
+	document.addEvent('touchmove', function(event){
+		event.preventDefault();
+	});
 
 ToDo
 ----
