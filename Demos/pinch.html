@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MooTools Mobile</title>
+	<link rel="stylesheet" media="all" type="text/css" href="style.css" />
+
+	<style type="text/css">
+		body {
+			-webkit-tap-highlight-color: transparent;
+		}
+
+		div.box {
+			width: 250px;
+			height: 250px;
+
+			background: #4791d9;
+
+			font-size: 2em;
+			line-height: 250px;
+			text-align: center;
+			color: #fff;
+		}
+	</style>
+	<script type="text/javascript" src="mootools-core.js"></script>
+
+	<script type="text/javascript" src="../Source/Browser/Features.Touch.js"></script>
+
+	<script type="text/javascript" src="../Source/Touch/Pinch.js"></script>
+
+	<script type="text/javascript">
+		window.addEvent('domready', function(){
+			var element = document.id('myElement'),
+				timer;
+
+			element.store('pinch:threshold', 0.4);
+			element.addEvent('pinch', function(event){
+				this.set('text', 'Pinch ' + event.pinch);
+
+				clearTimeout(timer);
+				timer = (function(){
+					this.set('text', 'Pinch');
+				}).delay(500, this);
+			});
+		});
+	</script>
+</head>
+<body>
+<div id="myElement" class="box">
+	Pinch
+</div>
+<div id="testElement"></div>
+</body>
+</html>

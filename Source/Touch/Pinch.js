@@ -5,11 +5,11 @@ name: Pinch
 
 description: Provides a custom pinch event for touch devices
 
-authors: Christopher Beloch (@C_BHole), Christoph Pojer (@cpojer), Ian Collins (@3n)
+authors: Christopher Beloch (@C_BHole), Christoph Pojer (@cpojer)
 
 license: MIT-style license.
 
-requires: [Core/Element.Events, Browser.Features.Touch]
+requires: [Core/Element.Event, Browser.Features.Touch]
 
 provides: Pinch
 
@@ -18,32 +18,36 @@ provides: Pinch
 
 if (Browser.Features.Touch) (function(){
 
-Element.Events.pinch = {
-	onAdd: function(fn){
-		Element.Events.pinch.active = true;
+var name = 'pinch',
+	thresholdKey = name + ':threshold';
 
-		gestureStart = function(event){
-			Element.Events.pinch.active = true;
-		};
-		gestureChange = function(event){
-			event.preventDefault();
+var events = {
 
-			isPinch = event.scale > 1.5 || event.scale < 0.5;
+	gesturechange: function(event){
+		event.preventDefault();
 
-			if(Element.Events.pinch.active && isPinch)
-			{
-				Element.Events.pinch.active = false;
+		var threshold = this.retrieve(thresholdKey, 0.5);
+		if (event.scale < (1 + threshold) && event.scale > (1 - threshold))
+			return;
 
-				fn.call(this, {
-					"type": (event.scale > 1) ? "in" : "out",
-					"factor": event.scale
-				});
-			}
-		};
-
-		this.addEvent('gesturestart', gestureStart);
-		this.addEvent('gesturechange', gestureChange);
+		event.pinch = (event.scale > 1) ? 'in' : 'out';
+		this.fireEvent(name, event);
 	}
+
+};
+
+Element.Events[name] = {
+	
+	onAdd: function(){
+		this.addEvents(events);
+	},
+
+	onRemove: function(){
+		var events = this.retrieve('events');
+		if (events && events[name] && !events[name].keys.length)
+			this.removeEvents(events);
+	}
+
 };
 
 })();

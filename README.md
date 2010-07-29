@@ -41,6 +41,19 @@ Additionally there are some options for swipe events
 	myElement.store('swipe:distance', 20); // (defaults to 50) amount of pixels to be moved until swipe is being fired
 	myElement.store('swipe:cancelVertical', true); // (defaults to false) Whether to cancel swipes if the user moved vertically
 
+Pinch Custom Event
+------------------
+
+The file Touch/Pinch.js provides a custom pinch event for your elements
+
+	myElement.addEvent('pinch', function(event){
+		event.pinch // Either 'in' or 'out'
+	});
+
+Additionally there is a threshold option for pinch events
+
+	myElement.store('pinch:threshold', 0.4); // (defaults to 0.5) the amount of scaling to be done to fire the pinch event
+
 Browser Information
 -------------------
 
