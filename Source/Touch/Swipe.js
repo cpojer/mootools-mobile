@@ -24,7 +24,7 @@ var name = 'swipe',
 	dflt = 50;
 
 var start = {},
-	stop;
+	active;
 
 var events = {
 
@@ -32,7 +32,7 @@ var events = {
 		if (event.touches.length > 1) return;
 
 		var touch = event.targetTouches[0];
-		stop = false;
+		active = true;
 		start = {
 			x: touch.pageX,
 			y: touch.pageY
@@ -42,7 +42,7 @@ var events = {
 	touchmove: function(event){
 		event.preventDefault();
 
-		if (stop) return;
+		if (!active) return;
 		
 		var touch = event.changedTouches[0];
 		var end = {
@@ -51,10 +51,9 @@ var events = {
 		};
 
 		if (this.retrieve(cancelKey) && Math.abs(start.y - end.y) > Math.abs(start.x - end.x)){
-			stop = true;
+			active = false;
 			return;
 		}
-
 		var distance = this.retrieve(distanceKey, dflt),
 			diff = end.x - start.x,
 			isLeftSwipe = diff < -distance,
@@ -62,7 +61,8 @@ var events = {
 
 		if (!isRightSwipe && !isLeftSwipe)
 			return;
-
+		
+		active = false;
 		event.direction = (isLeftSwipe ? 'left' : 'right');
 		event.start = start;
 		event.end = end;
