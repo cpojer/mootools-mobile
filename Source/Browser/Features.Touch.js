@@ -17,21 +17,34 @@ provides: Browser.Features.Touch
 */
 
 Browser.Features.Touch = (function(){
-	var hasTouch = false;
+	try {
+		document.createEvent('TouchEvent').initTouchEvent('touchstart');
+		return true;
+	} catch (exception){}
+	
+	return false;
+})();
+
+// Chrome 5 thinks it is touchy!
+// Android doesn't have a touch delay and dispatchEvent does not fire the handler
+Browser.Features.iOSTouch = (function(){
+	var name = 'cantouch', // Name does not matter
+		html = document.html,
+		hasTouch = false;
+
 	var handler = function(){
-		document.html.removeEventListener('cantouch', handler, true);
+		html.removeEventListener(name, handler, true);
 		hasTouch = true;
 	};
 
 	try {
-		document.html.addEventListener('cantouch', handler, true);
+		html.addEventListener(name, handler, true);
 		var event = document.createEvent('TouchEvent');
-		event.initTouchEvent('cantouch');
-		// Chrome 5 thinks it has touch events
-		document.html.dispatchEvent(event); // thanks @jdalton
+		event.initTouchEvent(name);
+		html.dispatchEvent(event);
 		return hasTouch;
 	} catch (exception){}
 
-	handler(); // Remove event again
+	handler(); // Remove listener
 	return false;
 })();

@@ -16,7 +16,7 @@ provides: Click
 ...
 */
 
-if (Browser.Features.Touch) (function(){
+if (Browser.Features.iOSTouch) (function(){
 
 var name = 'click',
 	touch = Element.Events.touch;

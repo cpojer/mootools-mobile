@@ -2,11 +2,22 @@
 <html>
 <head>
 	<title>MooTools Mobile</title>
+	<meta name = "viewport" content = "initial-scale=1.0; maximum-scale=1.0; user-scalable=no" /> 
 	<link rel="stylesheet" media="all" type="text/css" href="style.css" />
 
 	<style type="text/css">
 		div.box {
 			background: #4791d9;
+		}
+		
+		@media only screen and (max-device-width: 480px) {
+			div.box {
+				width: 8em;
+				height: 8em;
+
+				line-height: 8em;
+				font-size: 2.95em;
+			}
 		}
 	</style>
 	<script type="text/javascript" src="mootools-core.js"></script>
