@@ -20,8 +20,9 @@ Tested and supported are the following devices:
  * **iPhone 4** with iOS 4.0.2
  * **iPad** with iOS 3.2.2
  * **iPod Touch 2g** with iOS 4.0.1
-* **Android**
- * **HTC Magic** with Android 2.2 (Cyanogenmod): Android Browser, Dolfin HD (see Notes)
+* **Android** (see Notes)
+ * **HTC Magic** with Android 2.2 (Cyanogenmod): Android Browser, Dolfin HD
+ * **Motorola Droid / Milestone** with Android 2.1: Android Browser
  * **Samsung Galaxy S** with Android 2.1: Android Browser
 
 * Notes (Android)
