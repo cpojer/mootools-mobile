@@ -39,6 +39,33 @@ ul, ol {margin:0 1.5em 1.5em 0;padding-left:3.333em;}
 ul {list-style-type:disc;}
 ol {list-style-type:decimal;}
 
+/* CUSTOM */
+body {
+	-webkit-tap-highlight-color: transparent;
+}
+
 body > div {
 	margin: 10px;
+}
+
+div.box {
+	width: 20em;
+	height: 20em;
+	
+	line-height: 20em;
+	text-align: center;
+	font-size: 2em;
+	
+	background: #a647db;
+	color: #fff;
+}
+
+@media only screen and (max-device-width: 480px) {
+	div.box {
+		width: 10em;
+		height: 10em;
+		
+		line-height: 10em;
+		font-size: 5em;
+	}
 }
