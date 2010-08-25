@@ -14,7 +14,7 @@ Build via [Packager](http://github.com/kamicane/packager), requires [MooTools Co
 How To Use
 ----------
 
-If you include Touch/Touch.js (and dependencies) into your application, all click events will automatically be replaced with touch events.
+If you include Touch/Click.js (and dependencies) into your application, all click events will automatically be replaced with touch events.
 
 	myElement.addEvent('click', function(event){
 		// on iOS the click handler has been replaced with touchend
@@ -23,6 +23,17 @@ If you include Touch/Touch.js (and dependencies) into your application, all clic
 	}):
 
 For more information see the included Demo.
+
+Touch Custom Event
+------------------
+
+The replacement for click events is optional. If you choose to include Touch/Touch.js (and dependencies) without Click.js, your click event listeners will stay untouched and you get a custom 'touch' event instead.
+
+	myElement.addEvent('touch', function(event){
+		// Now this only does work on devices with touch support
+	});
+
+The requirement for the touch and click events to fire is to start and end the touch on the same element.
 
 Swipe Custom Event
 ------------------

@@ -3,7 +3,7 @@
 
 name: Touch
 
-description: Provides a replacement for click events on mobile devices
+description: Provides a custom touch event on mobile devices
 
 authors: Christoph Pojer (@cpojer)
 
@@ -18,15 +18,13 @@ provides: Touch
 
 if (Browser.Features.Touch) (function(){
 
-var name = 'click';
+var name = 'touch';
 var preventDefault = function(event){
 	event.preventDefault();
 };
 
-delete Element.NativeEvents[name];
-
 Element.Events[name] = {
-
+	
 	base: 'touchend',
 
 	condition: function(event){
