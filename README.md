@@ -16,10 +16,10 @@ Supported Devices
 
 Tested and supported are the following devices:
 
-* iPhone 4 with iOS 4.0.2
-* iPad with iOS 3.2.2
-* iPod Touch 2g with iOS 4.0.1
-* HTC Magic with Android 2.2 (Cyanogenmod) - Note: Multitouch in the browser is currently not possible on Android, the custom pinch event is therefore not yet supported.
+* **iPhone 4** with iOS 4.0.2
+* **iPad** with iOS 3.2.2
+* **iPod Touch 2g** with iOS 4.0.1
+* **HTC Magic** with Android 2.2 (Cyanogenmod) - Note: Multitouch in the browser is currently not possible on Android, the custom pinch event is therefore not yet supported.
 
 How To Use
 ----------
