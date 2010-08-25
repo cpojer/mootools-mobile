@@ -17,15 +17,16 @@ Supported Devices
 Tested and supported are the following devices:
 
 * **iOS**
- * **iPhone 4** with iOS 4.0.2
- * **iPad** with iOS 3.2.2
- * **iPod Touch 2g** with iOS 4.0.1
+  * **iPhone 4** with iOS 4.0.2
+  * **iPad** with iOS 3.2.2
+  * **iPod Touch 2g** with iOS 4.0.1
+
 * **Android** (see Notes)
- * **HTC Magic** with Android 2.2 (Cyanogenmod6): Android Browser, Dolfin HD
- * **Motorola Droid / Milestone** with Android 2.1: Android Browser
- * **Nexus One** with Android 2.2 (Cyanogenmod6): Android Browser
- * **HTC Desire** with Android 2.2: Android Browser
- * **Samsung Galaxy S** with Android 2.1: Android Browser
+  * **HTC Magic** with Android 2.2 (Cyanogenmod6): Android Browser, Dolfin HD
+  * **Motorola Droid / Milestone** with Android 2.1: Android Browser
+  * **Nexus One** with Android 2.2 (Cyanogenmod6): Android Browser
+  * **HTC Desire** with Android 2.2: Android Browser
+  * **Samsung Galaxy S** with Android 2.1: Android Browser
 
 * Notes (Android)
   * Multitouch in the browser is currently not available on (most?) Android phones.
