@@ -24,12 +24,14 @@ Tested and supported are the following devices:
  * **HTC Magic** with Android 2.2 (Cyanogenmod6): Android Browser, Dolfin HD
  * **Motorola Droid / Milestone** with Android 2.1: Android Browser
  * **Nexus One** with Android 2.2 (Cyanogenmod6): Android Browser
+ * **HTC Desire** with Android 2.2: Android Browser
  * **Samsung Galaxy S** with Android 2.1: Android Browser
 
 * Notes (Android)
   * Multitouch in the browser is currently not available on (most?) Android phones.
-  * The custom pinch event will not work if the browser has pinch-to-zoom (See Cyanogenmod).
+  * The custom pinch event will not work if the browser has pinch-to-zoom (See Cyanogenmod). It does work on more recent Android models.
   * Dolphin HD slides to the right/left which can be disabled in the settings. Swipe does not work if this setting is enabled. Pinch does not work yet even though the browser has multitouch support. A fix will may be added in the future.
+  *  TODO try to fix: Not all Android devices prevent text-selection for the touchhold event.
 
 Note: no other mobile browsers support touch events currently.
 
@@ -60,7 +62,7 @@ The requirement for the touch and click events to fire is to start and end the t
 Swipe Custom Event
 ------------------
 
-The file Touch/Swipe.js provides a custom swipe event for your elements
+The file Touch/Swipe.js provides a custom swipe event for your elements. Only works for 'left' and 'right' as moving up and down is reserved for scrolling.
 
 	myElement.addEvent('swipe', function(event){
 		event.direction // either 'left' or 'right'
