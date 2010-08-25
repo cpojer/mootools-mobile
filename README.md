@@ -16,10 +16,20 @@ Supported Devices
 
 Tested and supported are the following devices:
 
-* **iPhone 4** with iOS 4.0.2
-* **iPad** with iOS 3.2.2
-* **iPod Touch 2g** with iOS 4.0.1
-* **HTC Magic** with Android 2.2 (Cyanogenmod) - Note: Multitouch in the browser is currently not possible on Android, the custom pinch event is therefore not yet supported.
+* **iOS**
+ * **iPhone 4** with iOS 4.0.2
+ * **iPad** with iOS 3.2.2
+ * **iPod Touch 2g** with iOS 4.0.1
+* **Android**
+ * **HTC Magic** with Android 2.2 (Cyanogenmod): Android Browser, Dolfin HD (see Notes)
+ * **Samsung Galaxy S** with Android 2.1: Android Browser
+
+* Notes (Android)
+  * Multitouch in the browser is currently not available on (most?) Android phones.
+  * The custom pinch event will not work if the browser has pinch-to-zoom (See Cyanogenmod).
+  * Dolphin HD slides to the right/left which can be disabled in the settings. Swipe does not work if this setting is enabled. Pinch does not work yet even though the browser has multitouch support. A fix will may be added in the future.
+
+Note: no other mobile browsers support touch events currently.
 
 How To Use
 ----------
