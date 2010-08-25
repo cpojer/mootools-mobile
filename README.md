@@ -1,7 +1,7 @@
 Mobile
 ======
 
-Makes your web applications more touching. Provides a touch event handler that automatically replaces all your click handlers with touch listeners to overcome the click delay on iOS. Requires MooTools Core 1.3.
+Makes your web applications more touching. Provides custom events and useful browser information for mobile web (application) development. On iOS it provides a touch event handler that automatically replaces all your click handlers with touch events to overcome the ~300ms click delay. Requires MooTools Core 1.3.
 
 Build
 -----
@@ -10,6 +10,16 @@ Build via [Packager](http://github.com/kamicane/packager), requires [MooTools Co
 
 	./packager register /path/to/mobile
 	./packager build Mobile/* > mobile.js
+
+Supported Devices
+-----------------
+
+Tested and supported are the following devices:
+
+* iPhone 4 with iOS 4.0.2
+* iPad with iOS 3.2.2
+* iPod Touch 2g with iOS 4.0.1
+* HTC Magic with Android 2.2 (Cyanogenmod) - Note: Multitouch in the browser is currently not possible on Android, the custom pinch event is therefore not yet supported.
 
 How To Use
 ----------
@@ -84,7 +94,13 @@ Browser Information
 To execute code on browsers with touch events available use Browser/Features.Touch.js
 
 	if (Browser.Features.Touch){
-		// This browser definitely has touch events!
+		// This browser has touch events!
+	}
+
+Note that Chrome 5 reports to support touch events. This behavior has been fixed in Chrome 6 at least when no touch input devices are available. The "iOSTouch" property is only true on more sophisticated platforms such as mobile safari. This property is useful to detect whether click events should be replaced with touch events on iOS. You shouldn't need to access this property, but you may find it useful.
+
+	if (Browser.Features.iOSTouch){
+		// This browser has touch events 
 	}
 
 Access useful information about the browser environment via Browser/Mobile.js
@@ -132,6 +148,5 @@ ToDo
 ----
 
 * Click overwrite should probably pass a fake click event (?)
-* Add Android support and add useful Android information
+* Add useful Android information
 * Add webOS support and add useful webOS information
-* Remove Chrome 5 fix once Chrome 5 is dead (end of 2010?).
