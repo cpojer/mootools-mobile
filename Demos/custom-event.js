@@ -20,10 +20,8 @@ provides: Element.defineCustomEvent
 
 [Element, Window, Document].invoke('implement', {hasEvent: function(event){
 	var events = this.retrieve('events');
-	return (events && events[event] && events[event].values.length);
+	return !!(events && events[event] && events[event].values.length);
 }});
-
-var events = Element.Events;
 
 var wrap = function(custom, method, extended, name){
 	method = custom[method];
@@ -44,34 +42,30 @@ var inherit = function(custom, base, method, name){
 	};
 };
 
+var events = Element.Events;
+
 Element.defineCustomEvent = function(name, custom){
 
 	var base = events[custom.base];
-
+	
 	custom.onAdd = wrap(custom, 'onAdd', 'onSetup', name);
 	custom.onRemove = wrap(custom, 'onRemove', 'onTeardown', name);
 
-	if (!base){
-		events[name] = custom;
-		return;
-	}
-
-	events[name] = {
+	events[name] = base ? {
 
 		base: base.base,
 
-		condition: function(event, customName){
-			if (base.condition && !base.condition.call(this, event, customName || name)) return false;
-			if (custom.condition && !custom.condition.call(this, event, customName || name)) return false;
-
-			return true;
+		condition: function(event){
+			return (!base.condition || base.condition.call(this, event)) &&
+				(!custom.condition || custom.condition.call(this, event));
 		},
 
 		onAdd: inherit(custom, base, 'onAdd', name),
 		onRemove: inherit(custom, base, 'onRemove', name)
 
-	};
+	} : custom;
 
 };
 
 })();
+
