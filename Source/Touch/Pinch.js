@@ -24,11 +24,11 @@ var name = 'pinch',
 
 var events = {
 
-	gesturestart: function(){
-		active = true;
+	touchstart: function(event){
+		if (event.targetTouches.length == 2) active = true;
 	},
 
-	gesturechange: function(event){
+	touchmove: function(event){
 		event.preventDefault();
 
 		if (!active)
