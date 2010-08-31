@@ -18,13 +18,12 @@ provides: Touch
 
 if (Browser.Features.Touch) (function(){
 
-var name = 'touch';
 var preventDefault = function(event){
 	event.preventDefault();
 };
 
-Element.Events[name] = {
-	
+Element.defineCustomEvent('touch', {
+
 	base: 'touchend',
 
 	condition: function(event){
@@ -40,16 +39,14 @@ Element.Events[name] = {
 		return false;
 	},
 
-	onAdd: function(){
+	onSetup: function(){
 		this.addEvent('touchstart', preventDefault);
 	},
 
-	onRemove: function(){
-		var events = this.retrieve('events');
-		if (events && events[name] && !events[name].keys.length)
-			this.removeEvent('touchstart', preventDefault);
+	onTeardown: function(){
+		this.removeEvent('touchstart', preventDefault);
 	}
-	
-};
+
+});
 
 })();

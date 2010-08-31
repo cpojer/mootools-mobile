@@ -6,10 +6,14 @@ Makes your web applications more touching. Provides custom events and useful bro
 Build
 -----
 
-Build via [Packager](http://github.com/kamicane/packager), requires [MooTools Core](http://github.com/mootools/mootools-core) to be registered to Packager already
+Build via [Packager](http://github.com/kamicane/packager), requires [MooTools Core](http://github.com/mootools/mootools-core) and [MooTools Custom Event](http://github.com/cpojer/mootools-custom-event) to be registered to Packager already
 
 	./packager register /path/to/mobile
 	./packager build Mobile/* > mobile.js
+
+To build this plugin without external dependencies use
+
+	./packager build Mobile/* +use-only Mobile > mobile.js
 
 Supported Devices
 -----------------

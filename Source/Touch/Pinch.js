@@ -45,18 +45,16 @@ var events = {
 
 };
 
-Element.Events[name] = {
-	
-	onAdd: function(){
+Element.defineCustomEvent(name, {
+
+	onSetup: function(){
 		this.addEvents(events);
 	},
 
-	onRemove: function(){
-		var events = this.retrieve('events');
-		if (events && events[name] && !events[name].keys.length)
-			this.removeEvents(events);
+	onTeardown: function(){
+		this.removeEvents(events);
 	}
 
-};
+});
 
 })();

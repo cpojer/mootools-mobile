@@ -18,32 +18,13 @@ provides: Click
 
 if (Browser.Features.iOSTouch) (function(){
 
-var name = 'click',
-	touch = Element.Events.touch;
-
-var preventDefault = function(event){
-	event.preventDefault();
-};
-
+var name = 'click';
 delete Element.NativeEvents[name];
 
-Element.Events[name] = {
-	
-	base: touch.base,
-	
-	condition: touch.condition,
-	
-	// TODO DRY
-	onAdd: function(){
-		this.addEvent('touchstart', preventDefault);
-	},
+Element.defineCustomEvent(name, {
 
-	onRemove: function(){
-		var events = this.retrieve('events');
-		if (events && events[name] && !events[name].keys.length)
-			this.removeEvent('touchstart', preventDefault);
-	}
-	
-};
+	base: 'touch'
+
+});
 
 })();
