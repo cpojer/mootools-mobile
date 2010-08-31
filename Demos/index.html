@@ -10,14 +10,24 @@
 		}
 
 		div#more {
-			position: absolute;
-			right: 5px;
-			top: 5px;
-			width: 100px;
+			width: 150px;
+			
+			font-weight: bold;
 		}
 
 		div#more span {
-			font-weight: bold;
+			font-size: 1.2em;
+		}
+
+		div#more a {
+			margin: 2px 0;
+			padding: 5px;
+
+			text-decoration: none;
+			background-color: #e2e2e2;
+
+			-webkit-border-radius: 4px;
+			border-radius: 4px;
 		}
 		
 	 	span.yes {
@@ -35,11 +45,19 @@
 		span.no:after {
 			content: ' - no';
 		}
-		
+
+		div#support {
+			width: 300px;
+		}
+
 		div#support span {
 			display: block;
 		}
 
+		body > div {
+			float: left;
+		}
+		
 		div > a {
 			display: block;
 		}
@@ -94,7 +112,7 @@
 	
 </div>
 <div>
-<a id="myElement" href="#">Click Me so I can tell you which event handler was used</a>
+<a id="myElement" href="#">Click here to see which event handler was used</a>
 
 <a id="removeTest" href="#test" style="display: none;">This link is just for testing the remove listener</a>
 </div>
