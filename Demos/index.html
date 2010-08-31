@@ -45,6 +45,7 @@
 		}
 	</style>
 	<script type="text/javascript" src="mootools-core.js"></script>
+	<script type="text/javascript" src="custom-event.js"></script>
 	
 	<script type="text/javascript" src="../Source/Browser/Mobile.js"></script>
 	<script type="text/javascript" src="../Source/Browser/Features.Touch.js"></script>
@@ -71,11 +72,14 @@
 			document.id('myElement').addEvent('click', function(event){
 				event.preventDefault();
 				
-				add('Used click event: ' + event.type, event.type == 'touchend');
+				add('Click event was replaced with touchend: ', event.type == 'touchend');
 			});
 
-			var listener = function(){};
-			document.id('removeTest').addEvent('click', listener).removeEvent('click', listener);
+			var listener = function(){},
+				removeTest = document.id('removeTest');
+			
+			removeTest.addEvent('click', listener).removeEvent('click', listener);
+			add('Removed listener successfully: ', !removeTest.hasEvent('click'));
 		});
 	</script>
 </head>
@@ -92,7 +96,7 @@
 <div>
 <a id="myElement" href="#">Click Me so I can tell you which event handler was used</a>
 
-<a id="removeTest" href="#test">This link is just for testing the remove listener</a>
+<a id="removeTest" href="#test" style="display: none;">This link is just for testing the remove listener</a>
 </div>
 </body>
 </html>
