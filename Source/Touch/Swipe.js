@@ -67,7 +67,7 @@ var events = {
 		event.start = start;
 		event.end = end;
 		
-		this.fireEvent(name, event);
+		this.triggerEvent(name, event);
 	}
 
 };
