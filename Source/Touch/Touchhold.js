@@ -9,7 +9,7 @@ authors: Christoph Pojer (@cpojer)
 
 license: MIT-style license.
 
-requires: [Core/Element.Event, Browser.Features.Touch]
+requires: [Core/Element.Event, Custom-Event/Element.defineCustomEvent, Browser.Features.Touch]
 
 provides: Touchhold
 
