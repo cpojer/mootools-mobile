@@ -40,7 +40,7 @@ var events = {
 
 		active = false;
 		event.pinch = (event.scale > 1) ? 'in' : 'out';
-		this.triggerEvent(name, event);
+		this.fireEvent(name, event);
 	}
 
 };

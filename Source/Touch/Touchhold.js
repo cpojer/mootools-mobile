@@ -35,7 +35,7 @@ var events = {
 		}
 		
 		timer = (function(){
-			this.triggerEvent(name, event);
+			this.fireEvent(name, event);
 		}).delay(this.retrieve(delayKey) || 750, this);
 	},
 
