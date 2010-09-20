@@ -54,6 +54,7 @@ var events = {
 			active = false;
 			return;
 		}
+		
 		var distance = this.retrieve(distanceKey, dflt),
 			diff = end.x - start.x,
 			isLeftSwipe = diff < -distance,
