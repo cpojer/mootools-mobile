@@ -16,7 +16,7 @@ provides: Touch
 ...
 */
 
-if (Browser.Features.Touch) (function(){
+(function(){
 
 var preventDefault = function(event){
 	event.preventDefault();

@@ -16,6 +16,7 @@ authors: "[Christoph Pojer](http://cpojer.net)"
 sources:
   - "Source/Browser/Mobile.js"
   - "Source/Browser/Features.Touch.js"
+  - "Source/Desktop/Mouse.js"
   - "Source/Touch/Touch.js"
   - "Source/Touch/Click.js"
   - "Source/Touch/Pinch.js"

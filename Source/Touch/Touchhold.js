@@ -16,7 +16,7 @@ provides: Touchhold
 ...
 */
 
-if (Browser.Features.Touch) (function(){
+(function(){
 
 var name = 'touchhold',
 	delayKey = name + ':delay',

@@ -110,6 +110,8 @@ Additionally there is delay option for touchhold events
 Browser Information
 -------------------
 
+To support "touchhold" and "swipe" on desktop devices without touch input you can include Desktop/Mouse.js. It maps mouse* events to touch* events.
+
 To execute code on browsers with touch events available use Browser/Features.Touch.js
 
 	if (Browser.Features.Touch){

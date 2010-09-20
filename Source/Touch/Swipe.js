@@ -16,7 +16,7 @@ provides: Swipe
 ...
 */
 
-if (Browser.Features.Touch) (function(){
+(function(){
 
 var name = 'swipe',
 	distanceKey = name + ':distance',
