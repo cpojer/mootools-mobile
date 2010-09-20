@@ -29,7 +29,7 @@ var wrap = function(custom, method, extended, name){
 
 	return function(fn, customName){
 		if (!customName) customName = name;
-		
+
 		if (extended && !this.hasEvent(customName)) extended.call(this, fn, customName);
 		if (method) method.call(this, fn, customName);
 	};
@@ -47,7 +47,7 @@ var events = Element.Events;
 Element.defineCustomEvent = function(name, custom){
 
 	var base = events[custom.base];
-	
+
 	custom.onAdd = wrap(custom, 'onAdd', 'onSetup', name);
 	custom.onRemove = wrap(custom, 'onRemove', 'onTeardown', name);
 
@@ -64,6 +64,8 @@ Element.defineCustomEvent = function(name, custom){
 		onRemove: inherit(custom, base, 'onRemove', name)
 
 	} : custom;
+
+	return this;
 
 };
 
