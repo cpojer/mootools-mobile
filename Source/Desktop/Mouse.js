@@ -19,9 +19,10 @@ provides: Mouse
 if (!Browser.Features.Touch) (function(){
 
 var condition = function(event){
-	event.targetTouches = event.changedTouches = event.touches = [{
-		pageX: event.page.x,
-		pageY: event.page.y
+	event.targetTouches = [];
+	event.changedTouches = event.touches = [{
+		pageX: event.page.x, pageY: event.page.y,
+		clientX: event.client.x, clientY: event.client.y
 	}];
 
 	return true;

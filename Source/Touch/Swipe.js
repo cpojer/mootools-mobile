@@ -34,7 +34,7 @@ var events = {
 	touchstart: function(event){
 		if (event.touches.length > 1) return;
 
-		var touch = event.targetTouches[0];
+		var touch = event.touches[0];
 		active = true;
 		start = {x: touch.pageX, y: touch.pageY};
 	},
