@@ -42,23 +42,16 @@ var inherit = function(custom, base, method, name){
 	};
 };
 
-var events = Element.Events,
-	enabled = true;
+var events = Element.Events;
 
 Element.defineCustomEvent = function(name, custom){
 
 	var base = events[custom.base];
 
-	custom.condition = (function(condition){
-		return function(event){
-			return (enabled && condition && condition.call(this, event));
-		};
-	})(custom.condition);
-
 	custom.onAdd = wrap(custom, 'onAdd', 'onSetup', name);
 	custom.onRemove = wrap(custom, 'onRemove', 'onTeardown', name);
 
-	events[name] = base ? {
+	events[name] = base ? Object.append({}, custom, {
 
 		base: base.base,
 
@@ -70,19 +63,23 @@ Element.defineCustomEvent = function(name, custom){
 		onAdd: inherit(custom, base, 'onAdd', name),
 		onRemove: inherit(custom, base, 'onRemove', name)
 
-	} : custom;
+	}) : custom;
 
 	return this;
 
 };
 
-Element.disableCustomEvents = function(){
-	enabled = false;
+var loop = function(name){
+	var method = 'on' + name.capitalize();
+	Element[name + 'CustomEvents'] = function(){
+		Object.each(events, function(event, name){
+			if (event[method]) event[method].call(event, name);
+		});
+	};
+	return loop;
 };
 
-Element.enableCustomEvents = function(){
-	enabled = true;
-};
+loop('enable')('disable');
 
 })();
 

@@ -24,7 +24,7 @@ provides: [Core, MooTools, Type, typeOf, instanceOf]
 
 this.MooTools = {
 	version: '1.3dev',
-	build: 'fa735d9b515cf55703611320d7cfb8732093a94b'
+	build: '19e65d42d15925dfb28415ed0c9c36b07b5cc4b6'
 };
 
 // typeOf, instanceOf
@@ -2539,7 +2539,7 @@ Document.implement({
 		var types = {
 
 			string: function(id, nocash, doc){
-				id = Slick.find(doc, '#' + id);
+				id = Slick.find(doc, '#' + id.replace(/(\W)/g, '\\$1'));
 				return (id) ? types.element(id, nocash) : null;
 			},
 
@@ -2859,7 +2859,7 @@ Element.implement({
 	},
 
 	getElementById: function(id){
-		return document.id(Slick.find(this, '#' + id));
+		return document.id(Slick.find(this, '#' + ('' + id).replace(/(\W)/g, '\\$1')));
 	},
 
 	getSelected: function(){
@@ -3076,430 +3076,6 @@ Element.Properties.html = (function(){
 	html.erase = html.set;
 
 	return html;
-})();
-
-
-/*
----
-
-name: Object
-
-description: Object generic methods
-
-license: MIT-style license.
-
-requires: Type
-
-provides: [Object, Hash]
-
-...
-*/
-
-
-Object.extend({
-
-	subset: function(object, keys){
-		var results = {};
-		for (var i = 0, l = keys.length; i < l; i++){
-			var k = keys[i];
-			results[k] = object[k];
-		}
-		return results;
-	},
-
-	map: function(object, fn, bind){
-		var results = {};
-		for (var key in object){
-			if (object.hasOwnProperty(key)) results[key] = fn.call(bind, object[key], key, object);
-		}
-		return results;
-	},
-
-	filter: function(object, fn, bind){
-		var results = {};
-		Object.each(object, function(value, key){
-			if (fn.call(bind, value, key, object)) results[key] = value;
-		});
-		return results;
-	},
-
-	every: function(object, fn, bind){
-		for (var key in object){
-			if (object.hasOwnProperty(key) && !fn.call(bind, object[key], key)) return false;
-		}
-		return true;
-	},
-
-	some: function(object, fn, bind){
-		for (var key in object){
-			if (object.hasOwnProperty(key) && fn.call(bind, object[key], key)) return true;
-		}
-		return false;
-	},
-
-	keys: function(object){
-		var keys = [];
-		for (var key in object){
-			if (object.hasOwnProperty(key)) keys.push(key);
-		}
-		return keys;
-	},
-
-	values: function(object){
-		var values = [];
-		for (var key in object){
-			if (object.hasOwnProperty(key)) values.push(object[key]);
-		}
-		return values;
-	},
-
-	getLength: function(object){
-		return Object.keys(object).length;
-	},
-
-	keyOf: function(object, value){
-		for (var key in object){
-			if (object.hasOwnProperty(key) && object[key] === value) return key;
-		}
-		return null;
-	},
-
-	contains: function(object, value){
-		return Object.keyOf(object, value) != null;
-	},
-
-	toQueryString: function(object, base){
-		var queryString = [];
-
-		Object.each(object, function(value, key){
-			if (base) key = base + '[' + key + ']';
-			var result;
-			switch (typeOf(value)){
-				case 'object': result = Object.toQueryString(value, key); break;
-				case 'array':
-					var qs = {};
-					value.each(function(val, i){
-						qs[i] = val;
-					});
-					result = Object.toQueryString(qs, key);
-				break;
-				default: result = key + '=' + encodeURIComponent(value);
-			}
-			if (value != null) queryString.push(result);
-		});
-
-		return queryString.join('&');
-	}
-
-});
-
-
-
-
-
-/*
----
-
-name: Event
-
-description: Contains the Event Class, to make the event object cross-browser.
-
-license: MIT-style license.
-
-requires: [Window, Document, Array, Function, String, Object]
-
-provides: Event
-
-...
-*/
-
-var Event = new Type('Event', function(event, win){
-	if (!win) win = window;
-	var doc = win.document;
-	event = event || win.event;
-	if (event.$extended) return event;
-	this.$extended = true;
-	var type = event.type,
-		target = event.target || event.srcElement,
-		page = {},
-		client = {};
-	while (target && target.nodeType == 3) target = target.parentNode;
-
-	if (type.test(/key/)){
-		var code = event.which || event.keyCode;
-		var key = Object.keyOf(Event.Keys, code);
-		if (type == 'keydown'){
-			var fKey = code - 111;
-			if (fKey > 0 && fKey < 13) key = 'f' + fKey;
-		}
-		if (!key) key = String.fromCharCode(code).toLowerCase();
-	} else if (type.test(/click|mouse|menu/i)){
-		doc = (!doc.compatMode || doc.compatMode == 'CSS1Compat') ? doc.html : doc.body;
-		page = {
-			x: (event.pageX != null) ? event.pageX : event.clientX + doc.scrollLeft,
-			y: (event.pageY != null) ? event.pageY : event.clientY + doc.scrollTop
-		};
-		client = {
-			x: (event.pageX != null) ? event.pageX - win.pageXOffset : event.clientX,
-			y: (event.pageY != null) ? event.pageY - win.pageYOffset : event.clientY
-		};
-		if (type.test(/DOMMouseScroll|mousewheel/)){
-			var wheel = (event.wheelDelta) ? event.wheelDelta / 120 : -(event.detail || 0) / 3;
-		}
-		var rightClick = (event.which == 3) || (event.button == 2),
-			related = null;
-		if (type.test(/over|out/)){
-			related = event.relatedTarget || event[(type == 'mouseover' ? 'from' : 'to') + 'Element'];
-			var testRelated = function(){
-				while (related && related.nodeType == 3) related = related.parentNode;
-				return true;
-			};
-			var hasRelated = (Browser.firefox2) ? testRelated.attempt() : testRelated();
-			related = (hasRelated) ? related : null;
-		}
-	} else if (type.test(/gesture|touch/i)){
-		this.rotation = event.rotation;
-		this.scale = event.scale;
-		this.touches = event.touches;
-		this.targetTouches = event.targetTouches;
-		this.changedTouches = event.changedTouches;
-	}
-
-	return Object.append(this, {
-		event: event,
-		type: type,
-
-		page: page,
-		client: client,
-		rightClick: rightClick,
-
-		wheel: wheel,
-
-		relatedTarget: document.id(related),
-		target: document.id(target),
-
-		code: code,
-		key: key,
-
-		shift: event.shiftKey,
-		control: event.ctrlKey,
-		alt: event.altKey,
-		meta: event.metaKey
-	});
-});
-
-Event.Keys = {
-	'enter': 13,
-	'up': 38,
-	'down': 40,
-	'left': 37,
-	'right': 39,
-	'esc': 27,
-	'space': 32,
-	'backspace': 8,
-	'tab': 9,
-	'delete': 46
-};
-
-
-
-Event.implement({
-
-	stop: function(){
-		return this.stopPropagation().preventDefault();
-	},
-
-	stopPropagation: function(){
-		if (this.event.stopPropagation) this.event.stopPropagation();
-		else this.event.cancelBubble = true;
-		return this;
-	},
-
-	preventDefault: function(){
-		if (this.event.preventDefault) this.event.preventDefault();
-		else this.event.returnValue = false;
-		return this;
-	}
-
-});
-
-
-/*
----
-
-name: Element.Event
-
-description: Contains Element methods for dealing with events. This file also includes mouseenter and mouseleave custom Element Events.
-
-license: MIT-style license.
-
-requires: [Element, Event]
-
-provides: Element.Event
-
-...
-*/
-
-(function(){
-
-Element.Properties.events = {set: function(events){
-	this.addEvents(events);
-}};
-
-[Element, Window, Document].invoke('implement', {
-
-	addEvent: function(type, fn){
-		var events = this.retrieve('events', {});
-		if (!events[type]) events[type] = {keys: [], values: []};
-		if (events[type].keys.contains(fn)) return this;
-		events[type].keys.push(fn);
-		var realType = type,
-			custom = Element.Events[type],
-			condition = fn,
-			self = this;
-		if (custom){
-			if (custom.onAdd) custom.onAdd.call(this, fn);
-			if (custom.condition){
-				condition = function(event){
-					if (custom.condition.call(this, event)) return fn.call(this, event);
-					return true;
-				};
-			}
-			realType = custom.base || realType;
-		}
-		var defn = function(){
-			return fn.call(self);
-		};
-		var nativeEvent = Element.NativeEvents[realType];
-		if (nativeEvent){
-			if (nativeEvent == 2){
-				defn = function(event){
-					event = new Event(event, self.getWindow());
-					if (condition.call(self, event) === false) event.stop();
-				};
-			}
-			this.addListener(realType, defn);
-		}
-		events[type].values.push(defn);
-		return this;
-	},
-
-	removeEvent: function(type, fn){
-		var events = this.retrieve('events');
-		if (!events || !events[type]) return this;
-		var list = events[type];
-		var index = list.keys.indexOf(fn);
-		if (index == -1) return this;
-		var value = list.values[index];
-		delete list.keys[index];
-		delete list.values[index];
-		var custom = Element.Events[type];
-		if (custom){
-			if (custom.onRemove) custom.onRemove.call(this, fn);
-			type = custom.base || type;
-		}
-		return (Element.NativeEvents[type]) ? this.removeListener(type, value) : this;
-	},
-
-	addEvents: function(events){
-		for (var event in events) this.addEvent(event, events[event]);
-		return this;
-	},
-
-	removeEvents: function(events){
-		var type;
-		if (typeOf(events) == 'object'){
-			for (type in events) this.removeEvent(type, events[type]);
-			return this;
-		}
-		var attached = this.retrieve('events');
-		if (!attached) return this;
-		if (!events){
-			for (type in attached) this.removeEvents(type);
-			this.eliminate('events');
-		} else if (attached[events]){
-			attached[events].keys.each(function(fn){
-				this.removeEvent(events, fn);
-			}, this);
-			delete attached[events];
-		}
-		return this;
-	},
-
-	fireEvent: function(type, args, delay){
-		var events = this.retrieve('events');
-		if (!events || !events[type]) return this;
-		args = Array.from(args);
-
-		events[type].keys.each(function(fn){
-			if (delay) fn.delay(delay, this, args);
-			else fn.apply(this, args);
-		}, this);
-		return this;
-	},
-
-	cloneEvents: function(from, type){
-		from = document.id(from);
-		var events = from.retrieve('events');
-		if (!events) return this;
-		if (!type){
-			for (var eventType in events) this.cloneEvents(from, eventType);
-		} else if (events[type]){
-			events[type].keys.each(function(fn){
-				this.addEvent(type, fn);
-			}, this);
-		}
-		return this;
-	}
-
-});
-
-// IE9
-try {
-	if (typeof HTMLElement != 'undefined')
-		HTMLElement.prototype.fireEvent = Element.prototype.fireEvent;
-} catch(e){}
-
-Element.NativeEvents = {
-	click: 2, dblclick: 2, mouseup: 2, mousedown: 2, contextmenu: 2, //mouse buttons
-	mousewheel: 2, DOMMouseScroll: 2, //mouse wheel
-	mouseover: 2, mouseout: 2, mousemove: 2, selectstart: 2, selectend: 2, //mouse movement
-	keydown: 2, keypress: 2, keyup: 2, //keyboard
-	orientationchange: 2, // mobile
-	touchstart: 2, touchmove: 2, touchend: 2, touchcancel: 2, // touch
-	gesturestart: 2, gesturechange: 2, gestureend: 2, // gesture
-	focus: 2, blur: 2, change: 2, reset: 2, select: 2, submit: 2, //form elements
-	load: 2, unload: 1, beforeunload: 2, resize: 1, move: 1, DOMContentLoaded: 1, readystatechange: 1, //window
-	error: 1, abort: 1, scroll: 1 //misc
-};
-
-var check = function(event){
-	var related = event.relatedTarget;
-	if (related == null) return true;
-	if (!related) return false;
-	return (related != this && related.prefix != 'xul' && typeOf(this) != 'document' && !this.contains(related));
-};
-
-Element.Events = {
-
-	mouseenter: {
-		base: 'mouseover',
-		condition: check
-	},
-
-	mouseleave: {
-		base: 'mouseout',
-		condition: check
-	},
-
-	mousewheel: {
-		base: (Browser.firefox) ? 'DOMMouseScroll' : 'mousewheel'
-	}
-
-};
-
-
-
 })();
 
 
@@ -3948,7 +3524,436 @@ Element.alias({position: 'setPosition'}); //compatability
 /*
 ---
 
-name: DomReady
+name: Object
+
+description: Object generic methods
+
+license: MIT-style license.
+
+requires: Type
+
+provides: [Object, Hash]
+
+...
+*/
+
+
+Object.extend({
+
+	subset: function(object, keys){
+		var results = {};
+		for (var i = 0, l = keys.length; i < l; i++){
+			var k = keys[i];
+			results[k] = object[k];
+		}
+		return results;
+	},
+
+	map: function(object, fn, bind){
+		var results = {};
+		for (var key in object){
+			if (object.hasOwnProperty(key)) results[key] = fn.call(bind, object[key], key, object);
+		}
+		return results;
+	},
+
+	filter: function(object, fn, bind){
+		var results = {};
+		Object.each(object, function(value, key){
+			if (fn.call(bind, value, key, object)) results[key] = value;
+		});
+		return results;
+	},
+
+	every: function(object, fn, bind){
+		for (var key in object){
+			if (object.hasOwnProperty(key) && !fn.call(bind, object[key], key)) return false;
+		}
+		return true;
+	},
+
+	some: function(object, fn, bind){
+		for (var key in object){
+			if (object.hasOwnProperty(key) && fn.call(bind, object[key], key)) return true;
+		}
+		return false;
+	},
+
+	keys: function(object){
+		var keys = [];
+		for (var key in object){
+			if (object.hasOwnProperty(key)) keys.push(key);
+		}
+		return keys;
+	},
+
+	values: function(object){
+		var values = [];
+		for (var key in object){
+			if (object.hasOwnProperty(key)) values.push(object[key]);
+		}
+		return values;
+	},
+
+	getLength: function(object){
+		return Object.keys(object).length;
+	},
+
+	keyOf: function(object, value){
+		for (var key in object){
+			if (object.hasOwnProperty(key) && object[key] === value) return key;
+		}
+		return null;
+	},
+
+	contains: function(object, value){
+		return Object.keyOf(object, value) != null;
+	},
+
+	toQueryString: function(object, base){
+		var queryString = [];
+
+		Object.each(object, function(value, key){
+			if (base) key = base + '[' + key + ']';
+			var result;
+			switch (typeOf(value)){
+				case 'object': result = Object.toQueryString(value, key); break;
+				case 'array':
+					var qs = {};
+					value.each(function(val, i){
+						qs[i] = val;
+					});
+					result = Object.toQueryString(qs, key);
+				break;
+				default: result = key + '=' + encodeURIComponent(value);
+			}
+			if (value != null) queryString.push(result);
+		});
+
+		return queryString.join('&');
+	}
+
+});
+
+
+
+
+
+/*
+---
+
+name: Event
+
+description: Contains the Event Class, to make the event object cross-browser.
+
+license: MIT-style license.
+
+requires: [Window, Document, Array, Function, String, Object]
+
+provides: Event
+
+...
+*/
+
+var Event = new Type('Event', function(event, win){
+	if (!win) win = window;
+	var doc = win.document;
+	event = event || win.event;
+	if (event.$extended) return event;
+	this.$extended = true;
+	var type = event.type,
+		target = event.target || event.srcElement,
+		page = {},
+		client = {};
+	while (target && target.nodeType == 3) target = target.parentNode;
+
+	if (type.test(/key/)){
+		var code = event.which || event.keyCode;
+		var key = Object.keyOf(Event.Keys, code);
+		if (type == 'keydown'){
+			var fKey = code - 111;
+			if (fKey > 0 && fKey < 13) key = 'f' + fKey;
+		}
+		if (!key) key = String.fromCharCode(code).toLowerCase();
+	} else if (type.test(/click|mouse|menu/i)){
+		doc = (!doc.compatMode || doc.compatMode == 'CSS1Compat') ? doc.html : doc.body;
+		page = {
+			x: (event.pageX != null) ? event.pageX : event.clientX + doc.scrollLeft,
+			y: (event.pageY != null) ? event.pageY : event.clientY + doc.scrollTop
+		};
+		client = {
+			x: (event.pageX != null) ? event.pageX - win.pageXOffset : event.clientX,
+			y: (event.pageY != null) ? event.pageY - win.pageYOffset : event.clientY
+		};
+		if (type.test(/DOMMouseScroll|mousewheel/)){
+			var wheel = (event.wheelDelta) ? event.wheelDelta / 120 : -(event.detail || 0) / 3;
+		}
+		var rightClick = (event.which == 3) || (event.button == 2),
+			related = null;
+		if (type.test(/over|out/)){
+			related = event.relatedTarget || event[(type == 'mouseover' ? 'from' : 'to') + 'Element'];
+			var testRelated = function(){
+				while (related && related.nodeType == 3) related = related.parentNode;
+				return true;
+			};
+			var hasRelated = (Browser.firefox2) ? testRelated.attempt() : testRelated();
+			related = (hasRelated) ? related : null;
+		}
+	} else if (type.test(/gesture|touch/i)){
+		this.rotation = event.rotation;
+		this.scale = event.scale;
+		this.targetTouches = event.targetTouches;
+		this.changedTouches = event.changedTouches;
+		var touches = this.touches = event.touches;
+		if (touches && touches[0]){
+			var touch = touches[0];
+			page = {x: touch.pageX, y: touch.pageY};
+			client = {x: touch.clientX, y: touch.clientY};
+		}
+	}
+
+	return Object.append(this, {
+		event: event,
+		type: type,
+
+		page: page,
+		client: client,
+		rightClick: rightClick,
+
+		wheel: wheel,
+
+		relatedTarget: document.id(related),
+		target: document.id(target),
+
+		code: code,
+		key: key,
+
+		shift: event.shiftKey,
+		control: event.ctrlKey,
+		alt: event.altKey,
+		meta: event.metaKey
+	});
+});
+
+Event.Keys = {
+	'enter': 13,
+	'up': 38,
+	'down': 40,
+	'left': 37,
+	'right': 39,
+	'esc': 27,
+	'space': 32,
+	'backspace': 8,
+	'tab': 9,
+	'delete': 46
+};
+
+
+
+Event.implement({
+
+	stop: function(){
+		return this.stopPropagation().preventDefault();
+	},
+
+	stopPropagation: function(){
+		if (this.event.stopPropagation) this.event.stopPropagation();
+		else this.event.cancelBubble = true;
+		return this;
+	},
+
+	preventDefault: function(){
+		if (this.event.preventDefault) this.event.preventDefault();
+		else this.event.returnValue = false;
+		return this;
+	}
+
+});
+
+
+/*
+---
+
+name: Element.Event
+
+description: Contains Element methods for dealing with events. This file also includes mouseenter and mouseleave custom Element Events.
+
+license: MIT-style license.
+
+requires: [Element, Event]
+
+provides: Element.Event
+
+...
+*/
+
+(function(){
+
+Element.Properties.events = {set: function(events){
+	this.addEvents(events);
+}};
+
+[Element, Window, Document].invoke('implement', {
+
+	addEvent: function(type, fn){
+		var events = this.retrieve('events', {});
+		if (!events[type]) events[type] = {keys: [], values: []};
+		if (events[type].keys.contains(fn)) return this;
+		events[type].keys.push(fn);
+		var realType = type,
+			custom = Element.Events[type],
+			condition = fn,
+			self = this;
+		if (custom){
+			if (custom.onAdd) custom.onAdd.call(this, fn);
+			if (custom.condition){
+				condition = function(event){
+					if (custom.condition.call(this, event)) return fn.call(this, event);
+					return true;
+				};
+			}
+			realType = custom.base || realType;
+		}
+		var defn = function(){
+			return fn.call(self);
+		};
+		var nativeEvent = Element.NativeEvents[realType];
+		if (nativeEvent){
+			if (nativeEvent == 2){
+				defn = function(event){
+					event = new Event(event, self.getWindow());
+					if (condition.call(self, event) === false) event.stop();
+				};
+			}
+			this.addListener(realType, defn);
+		}
+		events[type].values.push(defn);
+		return this;
+	},
+
+	removeEvent: function(type, fn){
+		var events = this.retrieve('events');
+		if (!events || !events[type]) return this;
+		var list = events[type];
+		var index = list.keys.indexOf(fn);
+		if (index == -1) return this;
+		var value = list.values[index];
+		delete list.keys[index];
+		delete list.values[index];
+		var custom = Element.Events[type];
+		if (custom){
+			if (custom.onRemove) custom.onRemove.call(this, fn);
+			type = custom.base || type;
+		}
+		return (Element.NativeEvents[type]) ? this.removeListener(type, value) : this;
+	},
+
+	addEvents: function(events){
+		for (var event in events) this.addEvent(event, events[event]);
+		return this;
+	},
+
+	removeEvents: function(events){
+		var type;
+		if (typeOf(events) == 'object'){
+			for (type in events) this.removeEvent(type, events[type]);
+			return this;
+		}
+		var attached = this.retrieve('events');
+		if (!attached) return this;
+		if (!events){
+			for (type in attached) this.removeEvents(type);
+			this.eliminate('events');
+		} else if (attached[events]){
+			attached[events].keys.each(function(fn){
+				this.removeEvent(events, fn);
+			}, this);
+			delete attached[events];
+		}
+		return this;
+	},
+
+	fireEvent: function(type, args, delay){
+		var events = this.retrieve('events');
+		if (!events || !events[type]) return this;
+		args = Array.from(args);
+
+		events[type].keys.each(function(fn){
+			if (delay) fn.delay(delay, this, args);
+			else fn.apply(this, args);
+		}, this);
+		return this;
+	},
+
+	cloneEvents: function(from, type){
+		from = document.id(from);
+		var events = from.retrieve('events');
+		if (!events) return this;
+		if (!type){
+			for (var eventType in events) this.cloneEvents(from, eventType);
+		} else if (events[type]){
+			events[type].keys.each(function(fn){
+				this.addEvent(type, fn);
+			}, this);
+		}
+		return this;
+	}
+
+});
+
+// IE9
+try {
+	if (typeof HTMLElement != 'undefined')
+		HTMLElement.prototype.fireEvent = Element.prototype.fireEvent;
+} catch(e){}
+
+Element.NativeEvents = {
+	click: 2, dblclick: 2, mouseup: 2, mousedown: 2, contextmenu: 2, //mouse buttons
+	mousewheel: 2, DOMMouseScroll: 2, //mouse wheel
+	mouseover: 2, mouseout: 2, mousemove: 2, selectstart: 2, selectend: 2, //mouse movement
+	keydown: 2, keypress: 2, keyup: 2, //keyboard
+	orientationchange: 2, // mobile
+	touchstart: 2, touchmove: 2, touchend: 2, touchcancel: 2, // touch
+	gesturestart: 2, gesturechange: 2, gestureend: 2, // gesture
+	focus: 2, blur: 2, change: 2, reset: 2, select: 2, submit: 2, //form elements
+	load: 2, unload: 1, beforeunload: 2, resize: 1, move: 1, DOMContentLoaded: 1, readystatechange: 1, //window
+	error: 1, abort: 1, scroll: 1 //misc
+};
+
+var check = function(event){
+	var related = event.relatedTarget;
+	if (related == null) return true;
+	if (!related) return false;
+	return (related != this && related.prefix != 'xul' && typeOf(this) != 'document' && !this.contains(related));
+};
+
+Element.Events = {
+
+	mouseenter: {
+		base: 'mouseover',
+		condition: check
+	},
+
+	mouseleave: {
+		base: 'mouseout',
+		condition: check
+	},
+
+	mousewheel: {
+		base: (Browser.firefox) ? 'DOMMouseScroll' : 'mousewheel'
+	}
+
+};
+
+
+
+})();
+
+
+/*
+---
+
+name: DOMReady
 
 description: Contains the custom event domready.
 
@@ -3956,7 +3961,7 @@ license: MIT-style license.
 
 requires: [Browser, Element, Element.Event]
 
-provides: DomReady
+provides: DOMReady
 
 ...
 */
@@ -3964,6 +3969,7 @@ provides: DomReady
 (function(window, document){
 
 var ready,
+	loaded,
 	checks = [],
 	shouldPoll,
 	timer,
@@ -3985,11 +3991,11 @@ var domready = function(){
 };
 
 var check = function(){
-	for (var i = checks.length; i--; ) if (checks[i]()){
+	for (var i = checks.length; i--;) if (checks[i]()){
 		domready();
 		return true;
 	}
-	
+
 	return false;
 };
 
@@ -4016,7 +4022,6 @@ if (testElement.doScroll && !isFramed){
 
 if (document.readyState) checks.push(function(){
 	var state = document.readyState;
-
 	return (state == 'loaded' || state == 'complete');
 });
 
@@ -4025,26 +4030,31 @@ else shouldPoll = true;
 
 if (shouldPoll) poll();
 
-var onAdd = function(fn){
-	if (ready) fn.call(this);
-};
-
 Element.Events.domready = {
-	onAdd: onAdd
+	onAdd: function(fn){
+		if (ready) fn.call(this);
+	}
 };
 
 // Make sure that domready fires before load
 Element.Events.load = {
 	base: 'load',
-	onAdd: onAdd,
+	onAdd: function(fn){
+		if (loaded && this == window) fn.call(this);
+	},
 	condition: function(){
-		domready();
+		if (this == window){
+			domready();
+			delete Element.Events.load;
+		}
+		
 		return true;
 	}
 };
 
-window.addEvent('load',function(){
-	delete Element.Events.load;
+// This is based on the custom load event
+window.addEvent('load', function(){
+	loaded = true;
 });
 
 })(window, document);
