@@ -47,6 +47,8 @@ var events = {
 
 Element.defineCustomEvent(name, {
 
+	cancelable: true,
+
 	onSetup: function(){
 		this.addEvents(events);
 	},

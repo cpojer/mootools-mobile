@@ -26,6 +26,8 @@ Element.defineCustomEvent('touch', {
 
 	base: 'touchend',
 
+	cancelable: true,
+
 	condition: function(event){
 		if (event.targetTouches.length != 0) return false;
 
