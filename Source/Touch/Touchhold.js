@@ -20,7 +20,7 @@ provides: Touchhold
 
 var name = 'touchhold',
 	delayKey = name + ':delay',
-	timer;
+	disabled, timer;
 
 var clear = function(e){
 	clearTimeout(timer);
@@ -47,14 +47,21 @@ var events = {
 
 Element.defineCustomEvent(name, {
 
-	cancelable: true,
-
 	onSetup: function(){
 		this.addEvents(events);
 	},
 
 	onTeardown: function(){
 		this.removeEvents(events);
+	},
+
+	onEnable: function(){
+		disabled = false;
+	},
+
+	onDisable: function(){
+		disabled = true;
+		clear();
 	}
 
 });

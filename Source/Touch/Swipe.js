@@ -23,8 +23,11 @@ var name = 'swipe',
 	cancelKey = name + ':cancelVertical',
 	dflt = 50;
 
-var start = {},
-	active;
+var start = {}, disabled, active;
+
+var clean = function(){
+	active = false;
+};
 
 var events = {
 
@@ -33,23 +36,15 @@ var events = {
 
 		var touch = event.targetTouches[0];
 		active = true;
-		start = {
-			x: touch.pageX,
-			y: touch.pageY
-		};
+		start = {x: touch.pageX, y: touch.pageY};
 	},
 	
 	touchmove: function(event){
 		event.preventDefault();
-
-		if (!active) return;
+		if (disabled || !active) return;
 		
 		var touch = event.changedTouches[0];
-		var end = {
-			x: touch.pageX,
-			y: touch.pageY
-		};
-
+		var end = {x: touch.pageX, y: touch.pageY};
 		if (this.retrieve(cancelKey) && Math.abs(start.y - end.y) > Math.abs(start.x - end.x)){
 			active = false;
 			return;
@@ -69,13 +64,14 @@ var events = {
 		event.end = end;
 		
 		this.fireEvent(name, event);
-	}
+	},
+
+	touchend: clean,
+	touchcancel: clean
 
 };
 
 Element.defineCustomEvent(name, {
-
-	cancelable: true,
 
 	onSetup: function(){
 		this.addEvents(events);
@@ -83,6 +79,15 @@ Element.defineCustomEvent(name, {
 
 	onTeardown: function(){
 		this.removeEvents(events);
+	},
+
+	onEnable: function(){
+		disabled = false;
+	},
+
+	onDisable: function(){
+		disabled = true;
+		clean();
 	}
 
 });

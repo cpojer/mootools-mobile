@@ -20,7 +20,7 @@ if (Browser.Features.Touch) (function(){
 
 var name = 'pinch',
 	thresholdKey = name + ':threshold',
-	active;
+	disabled, active;
 
 var events = {
 
@@ -31,12 +31,10 @@ var events = {
 	touchmove: function(event){
 		event.preventDefault();
 
-		if (!active)
-			return;
+		if (disabled || !active) return;
 
 		var threshold = this.retrieve(thresholdKey, 0.5);
-		if (event.scale < (1 + threshold) && event.scale > (1 - threshold))
-			return;
+		if (event.scale < (1 + threshold) && event.scale > (1 - threshold)) return;
 
 		active = false;
 		event.pinch = (event.scale > 1) ? 'in' : 'out';
@@ -47,14 +45,20 @@ var events = {
 
 Element.defineCustomEvent(name, {
 
-	cancelable: true,
-	
 	onSetup: function(){
 		this.addEvents(events);
 	},
 
 	onTeardown: function(){
 		this.removeEvents(events);
+	},
+
+	onEnable: function(){
+		disabled = false;
+	},
+
+	onDisable: function(){
+		disabled = true;
 	}
 
 });

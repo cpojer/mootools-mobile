@@ -22,14 +22,14 @@ var preventDefault = function(event){
 	event.preventDefault();
 };
 
+var disabled;
+
 Element.defineCustomEvent('touch', {
 
 	base: 'touchend',
 
-	cancelable: true,
-
 	condition: function(event){
-		if (event.targetTouches.length != 0) return false;
+		if (disabled || event.targetTouches.length != 0) return false;
 
 		var touch = event.changedTouches[0],
 			target = document.elementFromPoint(touch.clientX, touch.clientY);
@@ -47,6 +47,14 @@ Element.defineCustomEvent('touch', {
 
 	onTeardown: function(){
 		this.removeEvent('touchstart', preventDefault);
+	},
+
+	onEnable: function(){
+		disabled = false;
+	},
+
+	onDisable: function(){
+		disabled = true;
 	}
 
 });
