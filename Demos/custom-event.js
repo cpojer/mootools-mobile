@@ -42,11 +42,18 @@ var inherit = function(custom, base, method, name){
 	};
 };
 
-var events = Element.Events;
+var events = Element.Events,
+	enabled = true;
 
 Element.defineCustomEvent = function(name, custom){
 
 	var base = events[custom.base];
+
+	custom.condition = (function(condition){
+		return function(event){
+			return (enabled && condition && condition.call(this, event));
+		};
+	})(custom.condition);
 
 	custom.onAdd = wrap(custom, 'onAdd', 'onSetup', name);
 	custom.onRemove = wrap(custom, 'onRemove', 'onTeardown', name);
@@ -67,6 +74,14 @@ Element.defineCustomEvent = function(name, custom){
 
 	return this;
 
+};
+
+Element.disableCustomEvents = function(){
+	enabled = false;
+};
+
+Element.enableCustomEvents = function(){
+	enabled = true;
 };
 
 })();
