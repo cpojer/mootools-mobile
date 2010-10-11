@@ -19,8 +19,14 @@ provides: Element.defineCustomEvent
 (function(){
 
 [Element, Window, Document].invoke('implement', {hasEvent: function(event){
-	var events = this.retrieve('events');
-	return !!(events && events[event] && events[event].values.length);
+	var events = this.retrieve('events'),
+		list = (events && events[event]) ? events[event].values : null;
+	if (list){
+		for (var i = list.length; i--;) if (i in list){
+			return true;
+		}
+	}
+	return false;
 }});
 
 var wrap = function(custom, method, extended, name){

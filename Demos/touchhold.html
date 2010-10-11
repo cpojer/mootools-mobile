@@ -3,6 +3,7 @@
 <head>
 	<title>MooTools Mobile</title>
 	<link rel="stylesheet" media="all" type="text/css" href="style.css" />
+	<link rel="stylesheet" media="all" type="text/css" href="demo.css" />
 
 	<style type="text/css">
 		body {
@@ -31,18 +32,19 @@
 					this.set('text', 'Touchhold');
 				}).delay(500, this);
 			});
-
-			// Testing remove listener
-			var listener = function(){};
-
-			document.id('testElement').addEvent('touchhold', listener).removeEvent('touchhold', listener);
 		});
 	</script>
 </head>
 <body>
-<div id="myElement" class="box">
-	Touchhold
-</div>
-<div id="testElement"></div>
+	<div id="more">
+		<span>Demos</span>
+		<a href="index.html">Home</a>
+		<a href="swipe.html">Swipe</a>
+		<a href="pinch.html">Pinch</a>
+		<a href="touchhold.html">Touchhold</a>
+	</div>
+	<div id="myElement" class="box">
+		Touchhold
+	</div>
 </body>
 </html>

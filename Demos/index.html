@@ -3,32 +3,11 @@
 <head>
 	<title>MooTools Mobile</title>
 	<link rel="stylesheet" media="all" type="text/css" href="style.css" />
+	<link rel="stylesheet" media="all" type="text/css" href="demo.css" />
 	
 	<style type="text/css">
 		body {
 			-webkit-tap-highlight-color: transparent;
-		}
-
-		div#more {
-			width: 150px;
-			
-			font-weight: bold;
-		}
-
-		div#more span {
-			font-size: 1.2em;
-		}
-
-		div#more a {
-			margin: 2px 0;
-			padding: 5px;
-
-			text-align: center;
-			text-decoration: none;
-			background-color: #e2e2e2;
-
-			-webkit-border-radius: 4px;
-			border-radius: 4px;
 		}
 		
 	 	span.yes {
@@ -95,7 +74,7 @@
 			});
 
 			var listener = function(){},
-				removeTest = document.id('removeTest');
+				removeTest = new Element('div');
 			
 			removeTest.addEvent('click', listener).removeEvent('click', listener);
 			add('Removed listener successfully: ', !removeTest.hasEvent('click'));
@@ -105,6 +84,7 @@
 <body>
 <div id="more">
 	<span>Demos</span>
+	<a href="index.html">Home</a>
 	<a href="swipe.html">Swipe</a>
 	<a href="pinch.html">Pinch</a>
 	<a href="touchhold.html">Touchhold</a>
@@ -114,8 +94,6 @@
 </div>
 <div>
 <a id="myElement" href="#">Click here to see which event handler was used</a>
-
-<a id="removeTest" href="#test" style="display: none;">This link is just for testing the remove listener</a>
 </div>
 </body>
 </html>

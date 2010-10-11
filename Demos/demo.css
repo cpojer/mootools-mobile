@@ -1,0 +1,13 @@
+body > div {
+	float: left;
+}
+
+div#more {
+	width: 150px;
+	
+	font-weight: bold;
+}
+
+div#more span {
+	font-size: 1.2em;
+}
