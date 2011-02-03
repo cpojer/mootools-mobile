@@ -3,17 +3,22 @@ Mobile
 
 Makes your web applications more touching. Provides custom events and useful browser information for mobile web (application) development. On iOS it provides a touch event handler that automatically replaces all your click handlers with touch events to overcome the ~300ms click delay. Requires MooTools Core 1.3.
 
+This Plugin is part of MooTools [PowerTools!](http://cpojer.net/PowerTools).
+
+* [Build PowerTools!](http://cpojer.net/PowerTools)
+* [Fork PowerTools!](https://github.com/cpojer/PowerTools)
+
 Build
 -----
 
 Build via [Packager](http://github.com/kamicane/packager), requires [MooTools Core](http://github.com/mootools/mootools-core) and [MooTools Custom Event](http://github.com/cpojer/mootools-custom-event) to be registered to Packager already
 
-	./packager register /path/to/mobile
-	./packager build Mobile/* > mobile.js
+	packager register /path/to/mobile
+	packager build Mobile/* > mobile.js
 
 To build this plugin without external dependencies use
 
-	./packager build Mobile/* +use-only Mobile > mobile.js
+	packager build Mobile/* +use-only Mobile > mobile.js
 
 Supported Devices
 -----------------
