@@ -34,4 +34,4 @@ if (this.devicePixelRatio == 2)
 
 Browser.isMobile = !['mac', 'linux', 'win'].contains(Browser.Platform.name);
 
-})();
+}).call(this);
