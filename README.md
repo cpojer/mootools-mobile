@@ -3,6 +3,8 @@ Mobile
 
 Makes your web applications more touching. Provides custom events and useful browser information for mobile web (application) development. On iOS it provides a touch event handler that automatically replaces all your click handlers with touch events to overcome the ~300ms click delay. Requires MooTools Core 1.3.
 
+![Screenshot](http://cpojer.net/Logo/mobile.png)
+
 This Plugin is part of MooTools [PowerTools!](http://cpojer.net/PowerTools).
 
 * [Build PowerTools!](http://cpojer.net/PowerTools)

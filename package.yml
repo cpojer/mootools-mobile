@@ -3,6 +3,7 @@ name: "Mobile"
 exports: "mobile.js"
 
 web: "[cpojer.net](http://cpojer.net)"
+demo: http://cpojer.net/MooTools/mobile/Demos/
 
 description: "Makes your web applications more touching."
 
@@ -12,6 +13,8 @@ copyright: "&copy; [Christoph Pojer](http://cpojer.net/)"
 
 author: "cpojer"
 authors: "[Christoph Pojer](http://cpojer.net)"
+category: Utilities
+tags: [mobile, browser, touch, swipe, pinch, touchhold]
 
 sources:
   - "Source/Browser/Mobile.js"
