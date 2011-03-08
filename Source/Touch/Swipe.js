@@ -45,7 +45,7 @@ var events = {
 		
 		var touch = event.changedTouches[0];
 		var end = {x: touch.pageX, y: touch.pageY};
-		if (this.retrieve(cancelKey) && Math.abs(start.y - end.y) > Math.abs(start.x - end.x)){
+		if (this.retrieve(cancelKey) && Math.abs(start.y - end.y) > Math.abs(start.x - end.x) || Math.abs(start.y - end.y) > 50){
 			active = false;
 			return;
 		}
