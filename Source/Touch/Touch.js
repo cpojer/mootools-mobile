@@ -19,7 +19,8 @@ provides: Touch
 (function(){
 
 var preventDefault = function(event){
-	event.preventDefault();
+	if (!event.target || event.target.tagName.toLowerCase() != 'select')
+		event.preventDefault();
 };
 
 var disabled;
