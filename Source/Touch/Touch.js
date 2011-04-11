@@ -37,7 +37,7 @@ Element.defineCustomEvent('touch', {
 
 		do {
 			if (target == this) return true;
-		} while ((target = target.parentNode) && target);
+		} while (target && (target = target.parentNode));
 
 		return false;
 	},
