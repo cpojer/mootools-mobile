@@ -25,12 +25,13 @@ Browser.Features.Touch = (function(){
 	return false;
 })();
 
-// Chrome 5 thinks it is touchy!
 // Android doesn't have a touch delay and dispatchEvent does not fire the handler
 Browser.Features.iOSTouch = (function(){
 	var name = 'cantouch', // Name does not matter
 		html = document.html,
 		hasTouch = false;
+
+	if (!html.addEventListener) return false;
 
 	var handler = function(){
 		html.removeEventListener(name, handler, true);
