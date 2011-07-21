@@ -40,7 +40,6 @@ var events = {
 	},
 	
 	touchmove: function(event){
-		event.preventDefault();
 		if (disabled || !active) return;
 		
 		var touch = event.changedTouches[0];
@@ -58,6 +57,7 @@ var events = {
 		if (!isRightSwipe && !isLeftSwipe)
 			return;
 		
+		event.preventDefault();
 		active = false;
 		event.direction = (isLeftSwipe ? 'left' : 'right');
 		event.start = start;
