@@ -42,17 +42,17 @@ var events = {
 	touchmove: function(event){
 		if (disabled || !active) return;
 		
-		var touch = event.changedTouches[0];
-		var end = {x: touch.pageX, y: touch.pageY};
-		if (this.retrieve(cancelKey) && Math.abs(start.y - end.y) > Math.abs(start.x - end.x)){
+		var touch = event.changedTouches[0],
+			end = {x: touch.pageX, y: touch.pageY};
+		if (this.retrieve(cancelKey) && Math.abs(start.y - end.y) > 10){
 			active = false;
 			return;
 		}
 		
 		var distance = this.retrieve(distanceKey, dflt),
-			diff = end.x - start.x,
-			isLeftSwipe = diff < -distance,
-			isRightSwipe = diff > distance;
+			delta = end.x - start.x,
+			isLeftSwipe = delta < -distance,
+			isRightSwipe = delta > distance;
 
 		if (!isRightSwipe && !isLeftSwipe)
 			return;
