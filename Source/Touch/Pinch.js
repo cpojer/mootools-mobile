@@ -29,9 +29,9 @@ var events = {
 	},
 
 	touchmove: function(event){
-		event.preventDefault();
-
 		if (disabled || !active) return;
+
+		event.preventDefault();
 
 		var threshold = this.retrieve(thresholdKey, 0.5);
 		if (event.scale < (1 + threshold) && event.scale > (1 - threshold)) return;
