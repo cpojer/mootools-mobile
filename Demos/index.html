@@ -4,16 +4,16 @@
 	<title>MooTools Mobile</title>
 	<link rel="stylesheet" media="all" type="text/css" href="style.css" />
 	<link rel="stylesheet" media="all" type="text/css" href="demo.css" />
-	
+
 	<style type="text/css">
 		body {
 			-webkit-tap-highlight-color: transparent;
 		}
-		
+
 	 	span.yes {
 			color: #363;
 		}
-		
+
 		span.yes:after {
 			content: ' - yes';
 		}
@@ -21,7 +21,7 @@
 		span.no {
 			color: #C30;
 		}
-		
+
 		span.no:after {
 			content: ' - no';
 		}
@@ -37,45 +37,45 @@
 		body > div {
 			float: left;
 		}
-		
+
 		div > a {
 			display: block;
 		}
 	</style>
 	<script type="text/javascript" src="mootools-core.js"></script>
 	<script type="text/javascript" src="custom-event.js"></script>
-	
+
 	<script type="text/javascript" src="../Source/Browser/Mobile.js"></script>
 	<script type="text/javascript" src="../Source/Browser/Features.Touch.js"></script>
-	
+
 	<script type="text/javascript" src="../Source/Touch/Touch.js"></script>
 	<script type="text/javascript" src="../Source/Touch/Click.js"></script>
-	
+
 	<script type="text/javascript">
 		window.addEvent('domready', function(){
 			var browser = document.id('support');
-			
+
 			var add = function(text, hasSupport){
 				return new Element('span.' + (hasSupport ? 'yes' : 'no'), {text: text}).inject(browser);
 			};
-			
+
 			// Check if some of the additional properties on the Browser object are set
 			add('Touch Support', Browser.Features.Touch);
 			add('iOS Touch Support', Browser.Features.iOSTouch);
 			add('Browser has high resolution', Browser.hasHighResolution);
 			add('Browser is mobile', Browser.isMobile);
 			add('Browser Device Name: ' + Browser.Device.name, Browser.Device.name != 'other');
-			
+
 			// On iOS this automatically gets replaced with the touchend event. No work required on your side!
 			document.id('myElement').addEvent('click', function(event){
 				event.preventDefault();
-				
+
 				add('Click event was replaced with touchend: ', event.type == 'touchend');
 			});
 
 			var listener = function(){},
 				removeTest = new Element('div');
-			
+
 			removeTest.addEvent('click', listener).removeEvent('click', listener);
 			add('Removed listener successfully: ', !removeTest.hasEvent('click'));
 		});
@@ -90,7 +90,7 @@
 	<a href="touchhold.html">Touchhold</a>
 </div>
 <div id="support">
-	
+
 </div>
 <div>
 <a id="myElement" href="#">Click here to see which event handler was used</a>
