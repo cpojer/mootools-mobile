@@ -18,7 +18,12 @@ provides: Mouse
 
 if (!Browser.Features.Touch) (function(){
 
-var condition = function(event){
+var down = false;
+var condition = function(event, type){
+	if (type == 'touchstart') down = true;
+	else if (type == 'touchend') down = false;
+	else if (type == 'touchmove' && !down) return false;
+
 	event.targetTouches = [];
 	event.changedTouches = event.touches = [{
 		pageX: event.page.x, pageY: event.page.y,
@@ -31,21 +36,22 @@ var condition = function(event){
 Element.defineCustomEvent('touchstart', {
 
 	base: 'mousedown',
-
 	condition: condition
 
 }).defineCustomEvent('touchmove', {
 
 	base: 'mousemove',
-
 	condition: condition
 
 }).defineCustomEvent('touchend', {
 
 	base: 'mouseup',
-
 	condition: condition
 
+});
+
+document.addEvent('mouseup', function() {
+	down = false;
 });
 
 })();
