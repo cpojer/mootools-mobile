@@ -16,12 +16,15 @@ provides: Browser.Features.Touch
 ...
 */
 
+var Core = require('Core');
+var Browser = Core.Browser;
+
 Browser.Features.Touch = (function(){
 	try {
 		document.createEvent('TouchEvent').initTouchEvent('touchstart');
 		return true;
 	} catch (exception){}
-	
+
 	return false;
 })();
 

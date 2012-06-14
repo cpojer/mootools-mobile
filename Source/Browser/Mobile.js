@@ -16,7 +16,8 @@ provides: Browser.Mobile
 ...
 */
 
-(function(){
+var Core = require('Core');
+var Browser = Core.Browser;
 
 Browser.Device = {
 	name: 'other'
@@ -24,7 +25,7 @@ Browser.Device = {
 
 if (Browser.Platform.ios){
 	var device = navigator.userAgent.toLowerCase().match(/(ip(ad|od|hone))/)[0];
-	
+
 	Browser.Device[device] = true;
 	Browser.Device.name = device;
 }
@@ -33,5 +34,3 @@ if (this.devicePixelRatio == 2)
 	Browser.hasHighResolution = true;
 
 Browser.isMobile = !['mac', 'linux', 'win'].contains(Browser.Platform.name);
-
-}).call(this);

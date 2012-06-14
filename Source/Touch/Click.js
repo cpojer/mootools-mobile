@@ -16,6 +16,10 @@ provides: Click
 ...
 */
 
+var Core = require('Core');
+var Browser = Core.Browser;
+var Element = Core.Element;
+
 if (Browser.Features.iOSTouch) (function(){
 
 var name = 'click';

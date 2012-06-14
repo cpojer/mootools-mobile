@@ -16,6 +16,9 @@ provides: Touchhold
 ...
 */
 
+var Core = require('Core');
+var Element = Core.Element;
+
 (function(){
 
 var name = 'touchhold',
@@ -33,7 +36,7 @@ var events = {
 			clear();
 			return;
 		}
-		
+
 		timer = (function(){
 			this.fireEvent(name, event);
 		}).delay(this.retrieve(delayKey) || 750, this);

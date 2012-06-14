@@ -16,6 +16,9 @@ provides: Touch
 ...
 */
 
+var Core = require('Core');
+var Element = Core.Element;
+
 (function(){
 
 var disabled;

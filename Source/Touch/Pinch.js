@@ -16,6 +16,10 @@ provides: Pinch
 ...
 */
 
+var Core = require('Core');
+var Browser = Core.Browser;
+var Element = Core.Element;
+
 if (Browser.Features.Touch) (function(){
 
 var name = 'pinch',
