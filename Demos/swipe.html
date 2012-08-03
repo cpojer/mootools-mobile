@@ -21,7 +21,7 @@
 			element.store('swipe:cancelVertical', true);
 			element.addEvent('swipe', function(event){
 				this.set('text', 'Swipe ' + event.direction);
-
+				
 				clearTimeout(timer);
 				timer = (function(){
 					this.set('text', 'Swipe');

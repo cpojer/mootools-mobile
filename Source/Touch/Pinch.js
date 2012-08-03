@@ -38,6 +38,13 @@ var events = {
 
 		active = false;
 		event.pinch = (event.scale > 1) ? 'in' : 'out';
+		event.direction = {};
+		event.direction.in = event.pinch == 'in';
+		event.direction.out = event.pinch == 'out';
+		event.direction.toString = function() {
+			return	event.pinch;
+		}
+		
 		this.fireEvent(name, event);
 	}
 
