@@ -59,7 +59,14 @@ var events = {
 		
 		event.preventDefault();
 		active = false;
-		event.direction = (isLeftSwipe ? 'left' : 'right');
+		// event.direction = (isLeftSwipe ? 'left' : 'right');
+		event.direction = {};
+		event.direction.left = isLeftSwipe;
+		event.direction.right = isRightSwipe;
+		event.direction.toString = function() {
+			var side = (isLeftSwipe ? 'left' : 'right');
+			return	side;
+		}
 		event.start = start;
 		event.end = end;
 		
