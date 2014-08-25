@@ -22,7 +22,7 @@ Browser.Device = {
 	name: 'other'
 };
 
-if (Browser.Platform.ios){
+if (Browser.ios){
 	var device = navigator.userAgent.toLowerCase().match(/(ip(ad|od|hone))/)[0];
 	
 	Browser.Device[device] = true;
@@ -32,6 +32,6 @@ if (Browser.Platform.ios){
 if (this.devicePixelRatio == 2)
 	Browser.hasHighResolution = true;
 
-Browser.isMobile = !['mac', 'linux', 'win'].contains(Browser.Platform.name);
+Browser.isMobile = !['mac', 'linux', 'win'].contains(Browser.name);
 
 }).call(this);
