@@ -17,12 +17,7 @@ provides: Browser.Features.Touch
 */
 
 Browser.Features.Touch = (function(){
-	try {
-		document.createEvent('TouchEvent').initTouchEvent('touchstart');
-		return true;
-	} catch (exception){}
-	
-	return false;
+	 return true == ('ontouchstart' in window || window.DocumentTouch && document instanceof DocumentTouch);
 })();
 
 // Android doesn't have a touch delay and dispatchEvent does not fire the handler
