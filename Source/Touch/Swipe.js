@@ -44,25 +44,36 @@ var events = {
 		
 		var touch = event.changedTouches[0],
 			end = {x: touch.pageX, y: touch.pageY};
-		if (this.retrieve(cancelKey) && Math.abs(start.y - end.y) > 10){
+		if (this.retrieve(cancelKey) && Math.abs(start.y - end.y) > 10) {
 			active = false;
 			return;
 		}
 		
 		var distance = this.retrieve(distanceKey, dflt),
-			delta = end.x - start.x,
-			isLeftSwipe = delta < -distance,
-			isRightSwipe = delta > distance;
+			deltaX = end.x - start.x,
+			deltaY = end.y - start.y,
+			direction = null;
 
-		if (!isRightSwipe && !isLeftSwipe)
+		if(Math.abs(deltaX) < distance && Math.abs(deltaY) < distance) {
 			return;
-		
+		}
+
+		if(Math.abs(deltaX) > Math.abs(deltaY)) {
+			direction = deltaX - distance < 0 ? 'left' : 'right';
+		} else {
+			direction = deltaY < -distance ? 'up' : 'down';
+		}
+
+		if (direction === null) {
+			return;
+		}
+
 		event.preventDefault();
 		active = false;
-		event.direction = (isLeftSwipe ? 'left' : 'right');
+		event.direction = direction;
 		event.start = start;
 		event.end = end;
-		
+
 		this.fireEvent(name, event);
 	},
 
